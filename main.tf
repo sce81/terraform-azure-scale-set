@@ -15,7 +15,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
   }
 
   admin_ssh_key {
-    username   = "simon"
+    username   = var.username
     public_key = var.public_key
   }
 
@@ -38,10 +38,9 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
 
 
     ip_configuration {
-      name      = "internal"
-      primary   = true
-      subnet_id = var.subnet_id
-      #   network_security_group_id = var.security_group
+      name                                   = "internal"
+      primary                                = true
+      subnet_id                              = var.subnet_id
       load_balancer_backend_address_pool_ids = var.lb_pool
     }
   }
@@ -108,19 +107,3 @@ resource "azurerm_role_assignment" "assignment" {
   role_definition_name = var.name
   principal_id         = lookup(azurerm_linux_virtual_machine_scale_set.main.identity[0], "principal_id")
 }
-
-
-//resource "azurerm_key_vault_access_policy" "main" {
-//  count = local.keyvault_policy
-//  key_vault_id = var.keyvault_id
-//  tenant_id    = data.azurerm_client_config.current.tenant_id
-//  object_id    = data.azurerm_client_config.current.object_id
-//
-//  key_permissions = [
-//    "Get",
-//  ]
-//
-//  secret_permissions = [
-//    "Get",
-//  ]
-//}

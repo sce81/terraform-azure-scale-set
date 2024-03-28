@@ -1,4 +1,5 @@
 # terraform-azure-scale-set
+### All code is provided for reference purposes only and is used at own risk. 
 
 Terraform module for creating an Azure Linux Scale Set  
 

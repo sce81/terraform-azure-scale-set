@@ -1,5 +1,6 @@
 # terraform-azure-scale-set
-### All code is provided for reference purposes only and is used entirely at own risk. 
+### All code is provided for reference purposes only and is used entirely at own risk. Code is for use in development environments only. Not suitable for Production. 
+
 
 Terraform module for creating an Azure Linux Scale Set  
 
@@ -21,18 +22,18 @@ Terraform module for creating an Azure Linux Scale Set
       user_data      = local.vault_userdata
       route_info     = local.route_info
       lb_pool        = module.vault_lb.lb_pool
-}
+    }
 
 
 ### Prerequisites
 
-Terraform ~> 1.6.0  
+Terraform ~> 1.7.0  
 
 ### Tested
 
-Terraform ~> 1.6.0  
+Terraform ~> 1.7.0  
 
 ### Outputs
 
-app_sg_id: value = azurerm_application_security_group.main.id 
-id: value        = azurerm_linux_virtual_machine_scale_set.main.id 
+    app_sg_id:      = azurerm_application_security_group.main.id 
+    id:             = azurerm_linux_virtual_machine_scale_set.main.id 

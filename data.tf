@@ -9,5 +9,6 @@ locals {
   common_tags = tomap({
     Environment = var.environment
     Terraform   = "true"
+    Service     = "${var.name}-${var.environment}"
   })
 }

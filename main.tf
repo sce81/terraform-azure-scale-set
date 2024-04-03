@@ -8,6 +8,8 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
   zone_balance        = var.zone_balance
   user_data           = base64encode(var.user_data)
   source_image_id     = var.image_id
+  upgrade_mode = "Manual"
+
 
   os_disk {
     storage_account_type = "Standard_LRS"

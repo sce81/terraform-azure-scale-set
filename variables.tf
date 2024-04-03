@@ -64,7 +64,9 @@ variable "allow_actions" {
     "Microsoft.Insights/alertRules/*",
     "Microsoft.Insights/components/*",
     "Microsoft.ResourceHealth/availabilityStatuses/read",
-    "Microsoft.Resources/subscriptions/resourceGroups/read"
+    "Microsoft.Resources/subscriptions/resourceGroups/read",
+    "Microsoft.Network/networkInterfaces/*",
+    "Microsoft.Compute/virtualMachineScaleSets/*/read"
   ]
 }
 variable "deny_actions" {

@@ -15,13 +15,17 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
   }
 
   admin_ssh_key {
-    username   = var.username
+    username   = "simon"
     public_key = var.public_key
   }
 
   identity {
     type = "SystemAssigned"
   }
+//  identity {
+//    type         = "UserAssigned"
+//    identity_ids = [azurerm_user_assigned_identity.main.id]
+//  }
 
   extension {
     name                 = "MSILinuxExtension"
@@ -38,10 +42,11 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
 
 
     ip_configuration {
-      name                                   = "internal"
-      primary                                = true
-      subnet_id                              = var.subnet_id
-      load_balancer_backend_address_pool_ids = var.lb_pool
+      name      = "internal"
+      primary   = true
+      subnet_id = var.subnet_id
+      #   network_security_group_id = var.security_group
+     load_balancer_backend_address_pool_ids = var.lb_pool
     }
   }
   automatic_instance_repair {
@@ -88,6 +93,11 @@ resource "azurerm_network_security_rule" "main" {
 
 }
 
+resource "azurerm_user_assigned_identity" "main" {
+  resource_group_name = data.azurerm_resource_group.main.name
+  location            = data.azurerm_resource_group.main.location
+  name                = "${var.name}-scale-set-msi"
+}
 
 resource "azurerm_role_definition" "main" {
   name        = var.name
@@ -99,11 +109,30 @@ resource "azurerm_role_definition" "main" {
     not_actions = var.deny_actions
   }
 
-  assignable_scopes = [data.azurerm_resource_group.main.id]
+  assignable_scopes = [
+    data.azurerm_resource_group.main.id
+  ]
 }
 
 resource "azurerm_role_assignment" "assignment" {
   scope                = data.azurerm_resource_group.main.id
-  role_definition_name = var.name
+  role_definition_name = azurerm_role_definition.main.name
+//  principal_id = azurerm_user_assigned_identity.main.id
   principal_id         = lookup(azurerm_linux_virtual_machine_scale_set.main.identity[0], "principal_id")
 }
+
+
+//resource "azurerm_key_vault_access_policy" "main" {
+//  count = local.keyvault_policy
+//  key_vault_id = var.keyvault_id
+//  tenant_id    = data.azurerm_client_config.current.tenant_id
+//  object_id    = data.azurerm_client_config.current.object_id
+//
+//  key_permissions = [
+//    "Get",
+//  ]
+//
+//  secret_permissions = [
+//    "Get",
+//  ]
+//}

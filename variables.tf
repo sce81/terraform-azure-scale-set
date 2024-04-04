@@ -8,7 +8,7 @@ variable "caching" { default = "ReadWrite" }
 variable "subnet_id" {}
 variable "resource_group" {}
 variable "user_data" {}
-
+variable "upgrade_mode" {default = "Manual"}
 variable "extra_tags" {
   type    = map(any)
   default = {}
@@ -42,7 +42,7 @@ variable "kv_access_policy" {
 variable "route_info" {
   description = "map of routing configuration "
   type = list(object({
-    route_cidr     = string
+   // route_cidr     = string
     name           = string
     access         = string
     direction      = string

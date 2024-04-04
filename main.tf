@@ -8,7 +8,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
   zone_balance        = var.zone_balance
   user_data           = base64encode(var.user_data)
   source_image_id     = var.image_id
-  upgrade_mode = "Manual"
+  upgrade_mode        = var.upgrade_mode
 
 
   os_disk {
@@ -47,7 +47,6 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
       name      = "internal"
       primary   = true
       subnet_id = var.subnet_id
-      #   network_security_group_id = var.security_group
      load_balancer_backend_address_pool_ids = var.lb_pool
     }
   }
@@ -60,6 +59,21 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
     local.common_tags, var.extra_tags,
   )
 }
+
+//resource "azurerm_monitor_autoscale_setting" "autoscale" {
+//  name                = "${var.name}-autoscale"
+//  location            = data.azurerm_resource_group.main.location
+//  resource_group_name = data.azurerm_resource_group.main.name
+//  target_resource_id  = azurerm_orchestrated_virtual_machine_scale_set.vmss_terraform_tutorial.id
+//  enabled             = true
+//  profile {
+//    name = "autoscale"
+//    capacity {
+//      default = 5
+//      minimum = 4
+//      maximum = 6
+//    }
+
 
 resource "azurerm_application_security_group" "main" {
   name                = "${var.name}-application-sg"
@@ -119,22 +133,5 @@ resource "azurerm_role_definition" "main" {
 resource "azurerm_role_assignment" "assignment" {
   scope                = data.azurerm_resource_group.main.id
   role_definition_name = azurerm_role_definition.main.name
-//  principal_id = azurerm_user_assigned_identity.main.id
   principal_id         = lookup(azurerm_linux_virtual_machine_scale_set.main.identity[0], "principal_id")
 }
-
-
-//resource "azurerm_key_vault_access_policy" "main" {
-//  count = local.keyvault_policy
-//  key_vault_id = var.keyvault_id
-//  tenant_id    = data.azurerm_client_config.current.tenant_id
-//  object_id    = data.azurerm_client_config.current.object_id
-//
-//  key_permissions = [
-//    "Get",
-//  ]
-//
-//  secret_permissions = [
-//    "Get",
-//  ]
-//}

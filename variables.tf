@@ -25,7 +25,6 @@ variable "image_id" {}
 variable "instance_repair" { default = false }
 
 variable "public_key" {}
-variable "key_username" {}
 
 variable "kv_access_policy" {
   description = "map of routing configuration "

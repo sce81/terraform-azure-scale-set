@@ -17,7 +17,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
   }
 
   admin_ssh_key {
-    username   = "simon"
+    username   = var.key_username
     public_key = var.public_key
   }
 

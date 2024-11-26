@@ -50,9 +50,9 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
      load_balancer_backend_address_pool_ids = var.lb_pool
     }
   }
-  automatic_instance_repair {
-    enabled = var.instance_repair
-  }
+  //automatic_instance_repair {
+  //  enabled = var.instance_repair
+  //}
 
 
   tags = merge(

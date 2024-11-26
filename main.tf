@@ -115,23 +115,23 @@ resource "azurerm_user_assigned_identity" "main" {
   name                = "${var.name}-scale-set-msi"
 }
 
-resource "azurerm_role_definition" "main" {
-  name        = var.name
-  scope       = data.azurerm_resource_group.main.id
-  description = "custom app service operator"
-
-  permissions {
-    actions     = var.allow_actions
-    not_actions = var.deny_actions
-  }
-
-  assignable_scopes = [
-    data.azurerm_resource_group.main.id
-  ]
-}
-
-resource "azurerm_role_assignment" "assignment" {
-  scope                = data.azurerm_resource_group.main.id
-  role_definition_name = azurerm_role_definition.main.name
-  principal_id         = lookup(azurerm_linux_virtual_machine_scale_set.main.identity[0], "principal_id")
-}
+//resource "azurerm_role_definition" "main" {
+//  name        = var.name
+//  scope       = data.azurerm_resource_group.main.id
+//  description = "custom app service operator"
+//
+//  permissions {
+//    actions     = var.allow_actions
+//    not_actions = var.deny_actions
+//  }
+//
+//  assignable_scopes = [
+//    data.azurerm_resource_group.main.id
+//  ]
+//}
+//
+//resource "azurerm_role_assignment" "assignment" {
+//  scope                = data.azurerm_resource_group.main.id
+//  role_definition_name = azurerm_role_definition.main.name
+//  principal_id         = lookup(azurerm_linux_virtual_machine_scale_set.main.identity[0], "principal_id")
+//}

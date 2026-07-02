@@ -8,16 +8,16 @@ variable "caching" { default = "ReadWrite" }
 variable "subnet_id" {}
 variable "resource_group" {}
 variable "user_data" {}
-variable "upgrade_mode" {default = "Manual"}
+variable "upgrade_mode" { default = "Manual" }
 variable "extra_tags" {
   type    = map(any)
   default = {}
 }
 
 variable "lb_pool" {
-    type = list(string)
-    default = []
-} 
+  type    = list(string)
+  default = []
+}
 
 
 variable "zone_balance" { default = true }
@@ -29,10 +29,10 @@ variable "public_key" {}
 variable "kv_access_policy" {
   description = "map of routing configuration "
   type = list(object({
-    keyvault_id     = optional(string)
-    object_id       = optional(list(string))
-    kv_key_permissions        = optional(list(string))
-    kv_secret_permissions      = optional(list(string))
+    keyvault_id           = optional(string)
+    object_id             = optional(list(string))
+    kv_key_permissions    = optional(list(string))
+    kv_secret_permissions = optional(list(string))
   }))
   default = [null]
 }
@@ -41,7 +41,7 @@ variable "kv_access_policy" {
 variable "route_info" {
   description = "map of routing configuration "
   type = list(object({
-   // route_cidr     = string
+    // route_cidr     = string
     name           = string
     access         = string
     direction      = string

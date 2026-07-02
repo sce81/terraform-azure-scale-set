@@ -24,10 +24,10 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
   identity {
     type = "SystemAssigned"
   }
-//  identity {
-//    type         = "UserAssigned"
-//    identity_ids = [azurerm_user_assigned_identity.main.id]
-//  }
+  //  identity {
+  //    type         = "UserAssigned"
+  //    identity_ids = [azurerm_user_assigned_identity.main.id]
+  //  }
 
   extension {
     name                 = "MSILinuxExtension"
@@ -44,10 +44,10 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
 
 
     ip_configuration {
-      name      = "internal"
-      primary   = true
-      subnet_id = var.subnet_id
-     load_balancer_backend_address_pool_ids = var.lb_pool
+      name                                   = "internal"
+      primary                                = true
+      subnet_id                              = var.subnet_id
+      load_balancer_backend_address_pool_ids = var.lb_pool
     }
   }
   //automatic_instance_repair {
